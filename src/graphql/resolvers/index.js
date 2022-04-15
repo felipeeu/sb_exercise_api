@@ -1,0 +1,1 @@
+import { getContacts } from "./contactResolvers";
