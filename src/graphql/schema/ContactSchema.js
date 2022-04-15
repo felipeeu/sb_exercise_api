@@ -1,0 +1,3 @@
+const ContactSchema = () => {};
+
+export { ContactSchema };
