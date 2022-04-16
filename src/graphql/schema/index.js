@@ -1,1 +1,0 @@
-export { ContactSchema } from "./contactSchema";

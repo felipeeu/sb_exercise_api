@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { graphqlHTTP } from "express-graphql";
-import { ContactSchema } from "./graphql";
+import { schema } from "./schema";
 import db from "./data/contacts.json";
 
 const app = express();
@@ -17,7 +17,7 @@ const root = {
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: ContactSchema,
+    schema,
     graphiql: process.env.NODE_ENV === "dev",
     rootValue: root,
   })
