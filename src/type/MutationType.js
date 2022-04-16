@@ -20,3 +20,4 @@ const Mutation = new GraphQLObjectType({
     },
   }),
 });
+export { Mutation };
