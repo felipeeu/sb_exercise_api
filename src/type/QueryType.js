@@ -1,6 +1,8 @@
 import { GraphQLObjectType, GraphQLList } from "graphql";
 import { Contact } from "./ContactType";
 import { ContactsInputFilter } from "./ContactsInputFilter";
+import { contactFilters } from "../resolvers";
+import db from "../data/contacts.json";
 
 const Query = new GraphQLObjectType({
   name: "Query",
@@ -12,6 +14,7 @@ const Query = new GraphQLObjectType({
       args: {
         filter: { type: ContactsInputFilter },
       },
+      resolve: (_, args) => contactFilters(db, args),
     },
   }),
 });
