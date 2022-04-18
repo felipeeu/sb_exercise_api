@@ -3,33 +3,35 @@ import {
   getAge,
   containsNumber,
   containsWords,
+  containsPhoneNumber,
+  parsePhoneNumber,
 } from "../../utils";
 
-const contactFilters = (contacts, input) => {
+const contactFilters = (db, args) => {
+  const input = args?.filter?.input;
   const shouldApplyFilters = input !== null;
-
+  let contacts = db;
   if (!shouldApplyFilters) {
     return contacts;
   }
 
   const inputSplitted = input?.split(" ");
-  const shouldApplyNameFilter =
+
+  const shouldApplyNameOrAddressFilter =
     shouldApplyFilters && containsWords(inputSplitted);
-  const shouldApplyPhoneFilter = containsNumber(inputSplitted);
+  const shouldApplyPhoneFilter = containsPhoneNumber(inputSplitted);
   const shouldApplyBirthdayFilter = containsNumber(inputSplitted);
 
-  if (shouldApplyNameFilter) {
+  if (shouldApplyNameOrAddressFilter) {
     contacts = contacts.filter((contact) =>
-      inputSplitted.find((input) =>
-        contact?.name.toLowerCase().includes(input.toLowerCase())
+      inputSplitted.find(
+        (input) =>
+          contact?.name.toLowerCase().includes(input.toLowerCase()) ||
+          contact.address.toLowerCase().includes(input.toLowerCase())
       )
     );
   }
-  if (shouldApplyPhoneFilter) {
-    contacts = contacts.filter((contact) =>
-      inputSplitted.find((input) => contact?.phone_number.includes(input))
-    );
-  }
+
   if (shouldApplyBirthdayFilter) {
     contacts = contacts.filter((contact) =>
       inputSplitted.find(
@@ -37,6 +39,14 @@ const contactFilters = (contacts, input) => {
       )
     );
   }
+  if (shouldApplyPhoneFilter) {
+    contacts = contacts.filter((contact) =>
+      inputSplitted.find(
+        (input) => parsePhoneNumber(contact?.phone_number) === input
+      )
+    );
+  }
+
   return contacts;
 };
 
