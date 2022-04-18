@@ -1,4 +1,4 @@
-import { GraphQLID, GraphQLString, GraphQLInputObjectType } from "graphql";
+import { GraphQLString, GraphQLInputObjectType } from "graphql";
 
 const stringType = { type: GraphQLString };
 
@@ -7,12 +7,7 @@ const ContactsInputFilter = new GraphQLInputObjectType({
   description: "Represent a contact input",
 
   fields: () => ({
-    _id: { type: GraphQLID },
-    picture: stringType,
-    birthday: stringType,
-    name: stringType,
-    address: stringType,
-    phone_number: stringType,
+    input: stringType,
   }),
 });
 export { ContactsInputFilter };
