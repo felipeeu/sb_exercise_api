@@ -1,1 +1,8 @@
-export { parseBirthday, getAge, containsNumber, containsWords } from "./utils";
+export {
+  parseBirthday,
+  getAge,
+  containsNumber,
+  containsWords,
+  containsPhoneNumber,
+  parsePhoneNumber,
+} from "./utils";
