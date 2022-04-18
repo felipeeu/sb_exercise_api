@@ -1,4 +1,11 @@
-import { parseBirthday, getAge, containsNumber, containsWords } from "./utils";
+import {
+  parseBirthday,
+  getAge,
+  containsNumber,
+  containsWords,
+  containsPhoneNumber,
+  parsePhoneNumber,
+} from "./utils";
 
 const DATE_TEST_TITLE = "Utils/ Date / ";
 const INPUT_TEST_TITLE = "Utils/ Input / ";
@@ -21,15 +28,18 @@ describe(`${DATE_TEST_TITLE}`, () => {
 
 describe(`${INPUT_TEST_TITLE}`, () => {
   test("Verify if there is number inside array", () => {
-    expect(containsNumber(["John", 30])).toBe(true);
+    expect(containsNumber(["John", "30"])).toBe(true);
   });
   test("Test fails if there is no numbers", () => {
     expect(containsNumber(["John"])).not.toBe(true);
   });
   test("Verify if there is words inside array", () => {
-    expect(containsWords(["John 7"])).toBe(true);
+    expect(containsWords(["John", "7"])).toBe(true);
   });
-  test("Test fails if there is no words", () => {
-    expect(containsWords(["56"])).not.toBe(true);
+  test("Verify if there is phone inside array", () => {
+    expect(containsPhoneNumber([" 5856678"])).toBe(true);
+  });
+  test("Remove code area from phone ", () => {
+    expect(parsePhoneNumber("(456) 5856678")).toBe("5856678");
   });
 });
