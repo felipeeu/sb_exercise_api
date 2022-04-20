@@ -1,5 +1,5 @@
-import { contactFilters } from "./contact";
-const FILTER_TEST_TITLE = "Resolver / Contact / Filter";
+import { verifyPhoneNumber, verifyNameOrAddress, verifyAge } from "./helpers";
+const HELPERS_TEST_TITLE = "Helpers/ Resolver / Contact / Filter";
 const db = [
   {
     _id: "625d2a35623ed67495c8a107",
@@ -22,7 +22,7 @@ const db = [
     picture: "image4.png",
     birthday: "2021-03-17T01:46:04 +03:00",
     name: "Mann Shepard",
-    address: "174 Hastings Street, Bergoo, Texas, 1648",
+    address: "174 Hastings Street, Bergoo, Arkansas, 1648",
     phone_number: "(053) 7779674",
   },
   {
@@ -50,21 +50,30 @@ const db = [
     phone_number: "(054) 9194510",
   },
 ];
-describe(`${FILTER_TEST_TITLE}`, () => {
-  test("Expecting contacts who are 85 years old", () => {
-    const args = { filter: { input: " 85" } };
-    expect(contactFilters(db, args)).toStrictEqual([db[4], db[5]]);
+
+describe(`${HELPERS_TEST_TITLE}`, () => {
+  test("Verifying existing phone number", () => {
+    return expect(verifyPhoneNumber(db, ["2982820"])).toStrictEqual([db[4]]);
   });
-  test("Expecting contacts who are 85 years old and named Eula", () => {
-    const args = { filter: { input: "Eula 85" } };
-    expect(contactFilters(db, args)).toStrictEqual([db[5]]);
+  test("Verifying another existing phone number", () => {
+    return expect(verifyPhoneNumber(db, ["9194510"])).toStrictEqual([db[5]]);
   });
-  test("Expecting contacts who are live in Michigan", () => {
-    const args = { filter: { input: "Michigan" } };
-    expect(contactFilters(db, args)).toStrictEqual([db[4]]);
+  test("Fails to find a diferent digit phone number", () => {
+    return expect(verifyPhoneNumber(db, ["2982"])).toStrictEqual([]);
   });
-  test("Expecting contacts who phone is 1504337", () => {
-    const args = { filter: { input: "1504337" } };
-    expect(contactFilters(db, args)).toStrictEqual([db[0]]);
+  test("Verifying an existing name ", () => {
+    return expect(verifyNameOrAddress(db, ["Dominguez"])).toStrictEqual([
+      db[5],
+    ]);
+  });
+  test("Verifying existing addresses and name ", () => {
+    return expect(verifyNameOrAddress(db, ["Arkansas", "Eula"])).toStrictEqual([
+      db[2],
+      db[3],
+      db[5],
+    ]);
+  });
+  test("Verifying existing age", () => {
+    return expect(verifyAge(db, ["68"])).toStrictEqual([db[3]]);
   });
 });
